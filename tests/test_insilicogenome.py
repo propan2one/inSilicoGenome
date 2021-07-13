@@ -1,0 +1,2 @@
+from insilicogenome import __version__
+from insilicogenome import insilicogenome
