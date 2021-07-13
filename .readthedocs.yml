@@ -3,7 +3,7 @@ version: 2
 
 # Image to use
 build:
-  image: testing
+  image: latest
 
 # Configuration
 python:
@@ -11,4 +11,4 @@ python:
   install:
     - requirements: docs/requirements.txt
     - method: pip
-      path: .
+      path: .s
