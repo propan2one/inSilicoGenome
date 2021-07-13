@@ -8,4 +8,4 @@ def test_version():
 
 def test_random_dnasequence():
     size = 10
-    assert ((insilicogenome.random_dnasequence(size)).codes == Seq('GTTCTTGAT')).all()
+    assert ((insilicogenome.random_dnasequence(size)) == Seq('TGTTCTTGAT'))
