@@ -11,6 +11,7 @@ repository = "https://github.com/propan2one/insilicogenome"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+biopython = "^1.79"
 
 [tool.poetry.dev-dependencies]
 
