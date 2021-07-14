@@ -60,5 +60,9 @@ def write_fasta_genome(output, sequence):
     # Raise error if not only ACTG in sequence to avoid inversion
     header=os.path.basename(output)
     header=os.path.splitext(header)[0]
+    n = 70	# return line every 70 characters
+    split_sequence = [sequence[i:i+n] for i in range(0, len(sequence), n)]
     with open(output, 'w') as outfile:
-            outfile.write(f">{header}\n{sequence}\n")
+            outfile.write(f">{header}\n")
+            for item in split_sequence:
+                outfile.write(f"{item}\n")
