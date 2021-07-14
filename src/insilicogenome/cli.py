@@ -9,7 +9,7 @@ from insilicogenome import insilicogenome
 #    """
 
 help_message = """
-usage: insilicogenome.py -o|--output <string> [-s|--size] <integer>
+usage: insilicogenome -o|--output <string> [-s|--size] <integer>
 
 A Python utility to create artificial genomes, this tool is designed to be used in bioinformatics benchmarking programs.
 
@@ -20,7 +20,7 @@ Arguments :
 
  Examples
     --------
-    python insilicogenome.py -o genome.fasta -s 100000
+    insilicogenome -o genome.fasta -s 100
 """
 try:
     options, args = getopt.getopt(sys.argv[1:], "ho:s:", ["help", "output=", "size="])
@@ -41,7 +41,15 @@ for opt, arg in options:
         print(help_message)
         sys.exit(2)
 
-if __name__ == '__main__':
+def main():
     sequence = insilicogenome.random_dnasequence(size)
     insilicogenome.write_fasta_genome(output, sequence)
     print(f"A genome of {size}bp have been write in {output}")
+
+# if __name__ == '__main__':
+#     sequence = insilicogenome.random_dnasequence(size)
+#     insilicogenome.write_fasta_genome(output, sequence)
+#     print(f"A genome of {size}bp have been write in {output}")
+
+if __name__ == "__main__":
+    main()
