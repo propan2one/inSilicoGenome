@@ -1,4 +1,4 @@
-import os.path
+import os
 import numpy as np
 
 def random_dnasequence(size):
@@ -58,5 +58,7 @@ def write_fasta_genome(output, sequence):
     if os.path.isfile(output):
         raise FileExistsError
     # Raise error if not only ACTG in sequence to avoid inversion
+    header=os.path.basename(output)
+    header=os.path.splitext(header)[0]
     with open(output, 'w') as outfile:
-            outfile.write(f">{output}\n{sequence}\n")
+            outfile.write(f">{header}\n{sequence}\n")

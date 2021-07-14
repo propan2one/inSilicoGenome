@@ -46,10 +46,5 @@ def main():
     insilicogenome.write_fasta_genome(output, sequence)
     print(f"A genome of {size}bp have been write in {output}")
 
-# if __name__ == '__main__':
-#     sequence = insilicogenome.random_dnasequence(size)
-#     insilicogenome.write_fasta_genome(output, sequence)
-#     print(f"A genome of {size}bp have been write in {output}")
-
 if __name__ == "__main__":
     main()
