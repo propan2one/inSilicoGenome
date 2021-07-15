@@ -36,7 +36,8 @@ def random_dnasequence(size):
 
 def replace_start_codons(sequence, codon_start_array = ["ATG", "CAT", "TTG", "CAA", "CTG", "CAG"]):
     """
-    Replace all the occurence of initiation codon {ATG & CAT, TTG & CAA, CTG & CAG} recusively.
+    Replace all the occurence of initiation codon by random sequence {ATG & CAT, TTG & CAA, CTG & CAG}.
+    The CAT, CAA, CAG are the reverse complement sequence of classical start codon
 
     Parameters
     ----------
