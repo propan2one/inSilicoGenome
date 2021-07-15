@@ -19,7 +19,7 @@ def random_dnasequence(size):
     --------
     >>> from insilicogenome import insilicogenome
     >>> insilicogenome.random_dnasequence(10)
-    'GTTCTTGAT'
+    'TGCTTGATGG'
     """
     if ((size>= 0) and (size<= 100000000)):
         pass
