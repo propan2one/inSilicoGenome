@@ -34,9 +34,9 @@ def random_dnasequence(size):
     sequence = ''.join(np.random.choice(('C','G','T','A'), size, p=[0.25, 0.25, 0.25, 0.25] ))
     return sequence
 
-def replace_start_codons(sequence, codon_start_array = ["ATG", "TTG", "CTG"]):
+def replace_start_codons(sequence, codon_start_array = ["ATG", "CAT", "TTG", "CAA", "CTG", "CAG"]):
     """
-    Replace all the occurence of initiation codon {ATG, TTG, CTG} recusively.
+    Replace all the occurence of initiation codon {ATG & CAT, TTG & CAA, CTG & CAG} recusively.
 
     Parameters
     ----------
