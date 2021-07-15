@@ -8,4 +8,7 @@ def test_version():
 
 def test_random_dnasequence():
     size = 10
-    assert ((insilicogenome.random_dnasequence(size)) == Seq('TGTTCTTGAT'))
+    assert ((insilicogenome.random_dnasequence(size)) == 'TGTTCTTGAT')
+
+def test_replace_start_codons():
+    assert ((insilicogenome.replace_start_codons("ATGATGAAATTCCTTGCATTT")) == 'GCTTCTAAATTCCGAAGATTT')
