@@ -37,9 +37,6 @@ def random_dnasequence(size):
 def replace_start_codons(sequence, codon_start_array = ["ATG", "TTG", "CTG"]):
     """
     Replace all the occurence of initiation codon {ATG, TTG, CTG} recusively.
-    
-    The choice was made to replace the start codons by triplets of identical nucleotides {e.g. AAA or CCC} generated randomly.
-    This choice is supposed to reduce the complexity of the recursion
 
     Parameters
     ----------
@@ -57,24 +54,19 @@ def replace_start_codons(sequence, codon_start_array = ["ATG", "TTG", "CTG"]):
     >>> insilicogenome.replace_start_codons("GTTCTTGAT")
     'GTTCCCCAT'
     """
-    tempRecordSeq = list(sequence)
     iteration=0
-    np.random.seed(iteration)
-    for index in range(0, len(sequence), 1):
-            codon = sequence[index:index+3]
-            if codon in codon_start_array:
-                tempRecordSeq[index:index+3] = np.random.choice(('C','G','T','A'), 1).repeat(3)
-    sequence = "".join(tempRecordSeq)
-    iteration = iteration+1
-    if (codon_start_array[0] in sequence or codon_start_array[1] in sequence or codon_start_array[2] in sequence and iteration < 100 ):
-        print(iteration)
-        replace_start_codons(sequence)
-    elif (iteration > 1000):
-        print(str(err))
-        print(f"The complexity is high and iteration={iteration}")
-        sys.exit(2)
-    else:
-        print(f"replace_start_codons() succed with {iteration} iterations")
+    while (codon_start_array[0] in sequence or codon_start_array[1] in sequence or codon_start_array[2] in sequence):
+        if (iteration == 1000):
+            break
+        else:
+            tempRecordSeq = list(sequence)
+            np.random.seed(iteration)
+            for index in range(0, len(sequence), 1):
+                    codon = sequence[index:index+3]
+                    if codon in codon_start_array:
+                        tempRecordSeq[index:index+3] = np.random.choice(('C','G','T','A'), 3, p=[0.25, 0.25, 0.25, 0.25] )
+            sequence = "".join(tempRecordSeq)
+            iteration += 1
     return sequence
 
 def write_fasta_genome(output, sequence):
