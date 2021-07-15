@@ -14,9 +14,9 @@ usage: insilicogenome -o|--output <string> [-s|--size] <integer>
 A Python utility to create artificial genomes, this tool is designed to be used in bioinformatics benchmarking programs.
 
 Arguments :
-    -h, --help    show this help message and exit
-    -o, --output  Name of the genome and header [string]
-    -s, --size    Size of the genome [base paire]
+    -h, --help    show this help message and exit.
+    -o, --output  Name of the genome and header. [string]
+    -s, --size    Size in base paire of the genome < 100 000 000 bp. [int]
 
  Examples
     --------
