@@ -33,7 +33,7 @@ Functions
 
    >>> from insilicogenome import insilicogenome
    >>> insilicogenome.random_dnasequence(10)
-   'GTTCTTGAT'
+   'TGCTTGATGG'
 
 
 .. function:: replace_start_codons(sequence, codon_start_array=['ATG', 'CAT', 'TTG', 'CAA', 'CTG', 'CAG'])
