@@ -45,7 +45,7 @@ def main():
     sequence = insilicogenome.random_dnasequence(size)
     sequence = insilicogenome.replace_start_codons(sequence)
     insilicogenome.write_fasta_genome(output, sequence)
-    print(f"A genome of {size}bp have been write in {output}")
+    print(f"INFO:insilicogenome.app:A genome of {size}bp have been write in {output}")
 
 if __name__ == "__main__":
     main()
