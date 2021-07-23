@@ -1,4 +1,5 @@
 import os
+import warnings
 import numpy as np
 
 def random_dnasequence(size):
@@ -69,6 +70,50 @@ def replace_start_codons(sequence, codon_start_array = ["ATG", "CAT", "TTG", "CA
             sequence = "".join(tempRecordSeq)
             iteration += 1
     return sequence
+
+def insert_random_gene(sequence, strand="+", start, codon_start, stop, codon_stop):
+  np.random.seed(123)
+  #assert codon_stop not in codon_stop_array,'Error in codon stop definition, provide "TAG", "TAA", "TGA"'
+  assert len(sequence)<6 ,'Error in gene size due to a sequence size inferior to 6bp'
+  if ((end - start +1) > 75):
+    pass
+  else:
+    warnings.warn('Gene size is abnormally small, check gene size', DeprecationWarning)
+  #control codon start
+  codon_start_array = ["ATG", "TTG", "CTG"]
+  if codon_start is not None:
+    codon_start = np.random.choice(codon_start_array, 1, p=[0.34, 0.33, 0.33] )
+  else:
+    assert codon_start not in codon_start_array,'Error in codon start definition, provide "ATG", "TTG", "CTG"'
+  # control codon stop
+  codon_stop_array = ["TAG", "TAA", "TGA"]
+  if codon_stop is not None:
+    codon_stop = np.random.choice(codon_stop_array, 1, p=[0.34, 0.33, 0.33] )
+  else:
+    assert codon_stop not in codon_stop_array,'Error in codon stop definition, provide "TAG", "TAA", "TGA"'
+  #
+  if (strand == "+"):
+    sequence = sequence[:start] + ''.join(codon_start) + sequence[(start+3)] + \
+    sequence[start:(stop-4)] + ''.join(codon_stop)
+    return sequence
+  else:
+    complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'} 
+    return ''.join([complement[base] for base in dna[::-1]])
+## Incorporate reverse complement to get in second strand 
+def reverse_complement(dna): 
+  complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'} 
+  return ''.join([complement[base] for base in dna[::-1]])
+
+np.random.seed(123)
+codon_start_array = ["ATG", "TTG", "CTG"]
+codon_stop_array = ["TAG", "TAA", "TGA"]
+codon_start = "ATG"
+codon_stop = "TAG"
+sequence = "GTTCTTGATGTTCTTGAT"
+len(sequence)
+strand = "+"
+start = 2
+stop = 15
 
 def write_fasta_genome(output, sequence):
     """
