@@ -37,6 +37,7 @@ for opt, arg in options:
         output = arg
     elif opt in ("-s", "--size"):
         size = int(arg)
+        assert size>49 ,'Error please provide a size value greater than 50 bp otherwise it is useless'
     else:
         print(help_message)
         sys.exit(2)
@@ -44,6 +45,8 @@ for opt, arg in options:
 def main():
     sequence = insilicogenome.random_dnasequence(size)
     sequence = insilicogenome.replace_start_codons(sequence)
+    sequence = insilicogenome.insert_random_gene(sequence, (size-40), (size-10))
+    sequence = insilicogenome.insert_random_gene(sequence, (size-10), (size-40), strand = "-")
     insilicogenome.write_fasta_genome(output, sequence)
     print(f"INFO:insilicogenome.app:A genome of {size}bp have been write in {output}")
 
