@@ -170,6 +170,19 @@ def insert_random_gene(sequence, start, stop, codon_start=None, codon_stop=None,
         raise ValueError(
             f"Error on 'strand' parameter in gene pos {start}-{stop} change {strand} to '+' or '-'")
 
+def insert_table_genes(sequence, genes):
+    """
+    docstring 
+    """
+    if os.path.isfile(genes):
+        pass
+    else:
+        raise FileExistsError
+    with open('readme.txt') as csv_file:
+      lines = f.readlines()
+  
+  
+
 def write_fasta_genome(output, sequence):
     """
     Writes name/sequence to file in FASTA format
