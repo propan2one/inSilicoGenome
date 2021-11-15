@@ -1,5 +1,9 @@
 import os
+import csv
 import numpy as np
+from random import seed
+from random import randint
+from random import choice
 
 def random_dnasequence(size):
     """
@@ -169,6 +173,23 @@ def insert_random_gene(sequence, start, stop, codon_start=None, codon_stop=None,
     else:
         raise ValueError(
             f"Error on 'strand' parameter in gene pos {start}-{stop} change {strand} to '+' or '-'")
+
+
+# Ce fichier pourrait allé dans un autre module.
+def random_table_genes(random_table_genes_file, size, genes_numbers=1):
+  """
+  docstring
+  random_table_genes("~/Téléchargements/random_table_genes.csv", 1000, genes_numbers=3)
+  """
+  with open(random_table_genes_file, 'w', encoding='UTF8', newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    seed(1)
+    i=1
+    while i <= genes_numbers:
+        start=randint(0,size-6)
+        data = [start,(start+3*randint(1,150)), choice(["+","-"])]
+        writer.writerow(data)
+        i += 1
 
 def insert_table_genes(sequence, genes):
     """

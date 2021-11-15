@@ -21,7 +21,7 @@ Arguments :
 
  Examples
     --------
-    insilicogenome -o genome.fasta -s 100 -s genes.txt
+    insilicogenome -o genome.fasta -s 100 -g genes.txt
 """
 try:
     options, args = getopt.getopt(sys.argv[1:], "ho:s:", ["help", "output=", "size=", "genes="])
