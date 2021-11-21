@@ -22,9 +22,10 @@ def random_table_genes(random_table_genes_file, size, genes_numbers=1):
         writer.writerow(data)
         i += 1
         
-def random_snv(FASTA, range_start, range_end, ALT, QUAL, FILTER, INFO):
+def random_snv(FASTA, range_start, range_end, QUAL=45, FILTER='PASS'):
     """
     Creat a list which contain information on SNP/SNP
+    Optimize to parse a GFF3 file and create a VCF file in silico
 
     Parameters
     ----------
@@ -35,12 +36,13 @@ def random_snv(FASTA, range_start, range_end, ALT, QUAL, FILTER, INFO):
 
     Returns
     -------
-    A list
+    A list with: #CHROM POS ID REF ALT QUAL FILTER
 
     Examples
     --------
     >>> from insilicogenome import insilicodata
-    >>> insilicodata.random_snv(/path/genome.fasta, )
+    >>> insilicodata.random_snv(/path/genome.fasta, range_start, range_end)
+    >>> insilicodata.random_snv('miniasm.fasta', 3, 36)
     """
     if ((range_start>= 0) and (range_end>0) and (range_end>range_start)):
         pass
@@ -49,24 +51,32 @@ def random_snv(FASTA, range_start, range_end, ALT, QUAL, FILTER, INFO):
         "Problems with the range where the SNV occurs. "
         f"The value of range_start is '{range_start}'"
         f"The value of range_end is '{range_end}'")
-    np.random.choice(range(range_start, range_end))
     if not os.path.isfile(FASTA):
         raise FileExistsError
     else:
         pass
     #fasta = insilicogenome.fasta_iter(FASTA)
+    nucleotides=['A', 'T', 'C', 'G']
+    np.random.seed(123)
     fasta = fasta_iter(FASTA)
     for ff in fasta:
         name, sequence, long_name = ff
-    REF=sequence[range_start:range_start+1]
-        
+    row = []
+    row.append(name) # CHROM
+    row.append(np.random.choice(range(range_start, range_end))) # POS
+    row.append('.') # ID
+    row.append(sequence[POS:POS+1]) # REF # Add strand option from GGF3
+    row.append(''.join(np.random.choice([x for x in nucleotides if x not in REF], 1))) # ALT
+    row.append(QUAL) # QUAL
+    row.append(FILTER) # FILTER
+    return row
+
 # Unit test
+FASTA="miniasm.fasta"
 range_start=3
-range_end=36    
-    
-    
-
-
+range_end=36
+>>> random_snv('miniasm.fasta', 3, 36)
+['utg000001c', 5, '.', 'C', 'A', 45, 'PASS']
 
         
 
@@ -103,11 +113,4 @@ def fasta_iter(FASTA):
         name = long_name.split()[0]
         sequence = "".join(str(s, 'utf-8').strip() for s in faiter.__next__())
         yield (name, sequence, long_name)
-    
-    
-range_start=12
-range_end=36
-
-FASTA="miniasm.fasta"
-    
     
