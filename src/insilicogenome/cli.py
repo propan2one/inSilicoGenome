@@ -2,6 +2,7 @@ import getopt
 import sys
 import argparse
 from insilicogenome import insilicogenome
+from insilicogenome import insilicodata
 
 #def parse_args():
 #    """
