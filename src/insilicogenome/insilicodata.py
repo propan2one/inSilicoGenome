@@ -71,15 +71,6 @@ def random_snv(FASTA, range_start, range_end, QUAL=45, FILTER='PASS'):
     row.append(FILTER) # FILTER
     return row
 
-# Unit test
-FASTA="miniasm.fasta"
-range_start=3
-range_end=36
->>> random_snv('miniasm.fasta', 3, 36)
-['utg000001c', 5, '.', 'C', 'A', 45, 'PASS']
-
-        
-
 # Mettre le parser dans 
 def fasta_iter(FASTA):
     """
