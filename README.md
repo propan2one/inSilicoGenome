@@ -7,8 +7,25 @@
 
 ## Installation
 
+### Using pip
+
 ```bash
 $ pip install -i https://test.pypi.org/simple/ insilicogenome
+```
+
+### Using github clone conda envs with poetry
+
+
+```bash
+# 1) Clone the repo 
+git clone git@github.com:propan2one/inSilicoGenome.git
+ 
+# 2) create a conda env where all tools work together
+#    in my case, for ease of use, I'm going to use biopython
+conda create -y -p ~/envs/insilicogenome \
+    --channel conda-forge python=3.11.11 cookiecutter Poetry
+conda activate ~/envs/insilicogenome
+poetry install
 ```
 
 ## Features
