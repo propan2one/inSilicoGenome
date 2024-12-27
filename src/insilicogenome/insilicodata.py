@@ -8,7 +8,8 @@ from random import seed
 from random import randint
 from random import choice
 from itertools import groupby
-from src.insilicogenome import insilicogenome
+#from src.insilicogenome import insilicogenome
+from insilicogenome import insilicogenome
 
 help_message = """
 usage: insilicogenome -o|--output <string> [-s|--size] <integer>
