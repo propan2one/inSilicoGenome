@@ -34,10 +34,6 @@ except getopt.GetoptError as err:
     print(help_message)
     sys.exit(2)
 
-#Default parameters
-range_start=5
-range_end=500
-
 for opt, arg in options:
     if opt in ("-h", "--help"):
         print(help_message)
@@ -92,8 +88,8 @@ def fasta_iter(FASTA):
         sequence = "".join(str(s, 'utf-8').strip() for s in faiter.__next__())
         yield (name, sequence, long_name)
 
-def random_snv(FASTA, range_start=range_start,
-            range_end=range_end, QUAL=45, FILTER='PASS', INFO=''):
+def random_snv(FASTA, range_start,
+            range_end, QUAL=45, FILTER='PASS', INFO=''):
     """
     Creat a list which contain information on SNP/SNP
     Optimize to parse a GFF3 file and create a VCF file in silico
@@ -146,8 +142,8 @@ def random_snv(FASTA, range_start=range_start,
     row.append(INFO) # INFO
     return row
 
-def random_mnv(FASTA, range_start=range_start,
-            range_end=range_end, QUAL=45, FILTER='PASS', INFO='', size=5):
+def random_mnv(FASTA, range_start, range_end, QUAL=45,
+               FILTER='PASS', INFO='', size=5):
     """
     Creat a list which contain information on SNP/SNP
     Optimize to parse a GFF3 file and create a VCF file in silico
@@ -205,21 +201,23 @@ def random_mnv(FASTA, range_start=range_start,
     row.append(INFO) # INFO
     return row
 
-def random_ins(FASTA, range_start=range_start,
-            range_end=range_end, QUAL=45, FILTER='PASS', INFO='', size=5):
+def random_ins(FASTA, range_start, range_end, QUAL=45,
+               FILTER='PASS', INFO='', size=5, nucleotides = ''):
     """
     Creat a list which contain information on SNP/SNP
     Optimize to parse a GFF3 file and create a VCF file in silico
     Parameters
     ----------
     FASTA : The name of the header and fasta file
-      Fasta file, with the path (optionnal)
+        Fasta file, with the path (optionnal)
     range_start : position where the range of insertion start
         int
     range_end : position where the range of insertion end
         int
     size : the size of the insertion
         int
+    nucleotides : The nucleotide sequence to be inserted (optionnal)
+        str, empty by default
     
     Returns
     -------
@@ -234,7 +232,7 @@ def random_ins(FASTA, range_start=range_start,
         pass
     else:
         raise ValueError(
-        "Problems with the range where the SNV occurs. "
+        "insilicodata::random_ins::[info]: The range used is not correct "
         f"The value of range_start is '{range_start}'"
         f"The value of range_end is '{range_end}'")
     # add controle pour s'assurer que les valeur de range sont pas or range de seq
@@ -258,15 +256,18 @@ def random_ins(FASTA, range_start=range_start,
     row.append('.') # ID
     REF=sequence[POS-1]
     row.append(REF) # REF # Add strand option from GGF3
-    row.append(REF+''.join(np.random.choice(['A', 'T', 'C', 'G'], size,
+    if nucleotides == '': # ALT randomly generated
+        row.append(REF+''.join(np.random.choice(['A', 'T', 'C', 'G'], size,
                             p=[0.25, 0.25, 0.25, 0.25]))) # ALT
+    else : # ALT sequence described by the user
+        row.append(REF + nucleotides)
     row.append(QUAL) # QUAL
     row.append(FILTER) # FILTER
     row.append(INFO) # INFO
     return row
 
-def random_del(FASTA, range_start=range_start,
-            range_end=range_end, QUAL=45, FILTER='PASS', INFO='', size=5):
+def random_del(FASTA, range_start, range_end,
+               QUAL=45, FILTER='PASS', INFO='', size=5):
     """
     Creat a list which contain information on SNP/SNP
     Optimize to parse a GFF3 file and create a VCF file in silico
@@ -324,8 +325,8 @@ def random_del(FASTA, range_start=range_start,
     row.append(INFO) # INFO
     return row
 
-def generate_table_small_variation(FASTA, range_start=range_start,
-            range_end=range_end, QUAL=45, FILTER='PASS', INFO='', size=5):
+def generate_table_small_variation(FASTA, range_start, range_end,
+             QUAL=45, FILTER='PASS', INFO='', size=5):
     """
     Creat table containing in silico variation close to VCF format
     
@@ -394,10 +395,16 @@ def create_variants(FASTA, vcf, **kwargs):
       Numpy array, dtype='<U21'
     size : the size of the insertion
         int
-    
+    range_start : position where the range of insertion start (optionnal)
+        range_start=int, must have the 'range_start=' provided
+    range_end : position where the range of insertion end (optionnal)
+        range_end=int, must have the 'range_end=' provided
+
     Returns
     -------
     A CSV file containing all mutated position
+    A FASTA file with '_variant' suffix containing all mutated position
+
     Examples
     --------
     >>> from insilicogenome import insilicodata
@@ -405,10 +412,20 @@ def create_variants(FASTA, vcf, **kwargs):
     >>> insilicodata.generate_table_small_variation(/path/genome.fasta, vcf)
     >>> insilicodata.generate_table_small_variation('miniasm.fasta', 3, 36, 5)
     """
-    if "range_start" in kwargs:
-        range_pos = "_" + str(range_start) + "_" + str(range_end)
+    range_start = kwargs.get('range_start')
+    range_end = kwargs.get('range_end')
+    
+    # Check if range_start and range_end are provided - For naming file only
+    if range_start is not None and range_end is not None:
+        range_pos= f"_{range_start}_{range_end}"
+    elif range_start is not None:
+        range_pos= f"_{range_start}"
+    elif range_end is not None:
+        range_start=1
+        range_pos= f"_{str(range_start)}_{range_end}"
     else:
         range_pos=""
+    
     vcf = vcf[vcf[:, 1].argsort()[::-1]]
     vcflist = vcf.tolist()
     fasta = fasta_iter(FASTA)
@@ -420,14 +437,14 @@ def create_variants(FASTA, vcf, **kwargs):
             # Error SNP it's true
             pass
         else:
-            print("Warning: insilicogenome.app: conflict detected\n"
+            print("create_variantsWarning: insilicogenome.app: conflict detected\n"
             f"POS: {vcflist[i][1]} -> FASTA file: {sequence[(int(vcflist[i][1])-1):(int(vcflist[i][1])+len(vcflist[i][3])-1)]}\n"
             f"POS: {vcflist[i][1]} -> CSV file: {vcflist[i][3]}")
         sequence =sequence[0:(int(vcflist[i][1])-1)] + vcflist[i][4] + sequence[(int(vcflist[i][1])+len(vcflist[i][3])-1)::]
         i += 1
     output_fasta = name + range_pos + "_variant.fasta"
     insilicogenome.write_fasta_genome(output_fasta, sequence)
-    print(f"INFO:insilicogenome.app: variant of {FASTA} have been create"
+    print(f"INFO:insilicogenome.app: variant of {FASTA} have been create with "
                 f"Filename : {output_fasta}")
 
 def multiple_FASTA_one_variation(FASTA, range_start, range_end, size):
