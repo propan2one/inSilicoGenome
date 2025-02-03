@@ -1,6 +1,6 @@
 import getopt
 import sys
-import argparse
+import click
 from insilicogenome import insilicogenome
 from insilicogenome import insilicodata
 
@@ -46,16 +46,17 @@ for opt, arg in options:
         print(help_message)
         sys.exit(2)
 
-def main():
-    sequence = insilicogenome.random_dnasequence(size)
-    sequence = insilicogenome.replace_start_codons(sequence)
-    if genes == None:
-        sequence = insilicogenome.insert_random_gene(sequence, (size-40), (size-10), 
-                                                 codon_start="ATG", codon_stop="TAA", strand = "+")
-    else:
-        sequence = insilicogenome.insert_table_genes(sequence, genes) ##TODO
-    insilicogenome.write_fasta_genome(output, sequence)
-    print(f"INFO:insilicogenome.app: A genome of {size}bp have been write in {output}")
+def cli():
+    print("Hello world!")
+    # sequence = insilicogenome.random_dnasequence(size)
+    # sequence = insilicogenome.replace_start_codons(sequence)
+    # if genes == None:
+    #     sequence = insilicogenome.insert_random_gene(sequence, (size-40), (size-10), 
+    #                                              codon_start="ATG", codon_stop="TAA", strand = "+")
+    # else:
+    #     sequence = insilicogenome.insert_table_genes(sequence, genes) ##TODO
+    # insilicogenome.write_fasta_genome(output, sequence)
+    # print(f"INFO:insilicogenome.app: A genome of {size}bp have been write in {output}")
 
 if __name__ == "__main__":
-    main()
+    cli()
