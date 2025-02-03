@@ -23,7 +23,7 @@ git clone git@github.com:propan2one/inSilicoGenome.git
 # 2) create a conda env where all tools work together
 #    in my case, for ease of use, I'm going to use biopython
 conda create -y -p ~/envs/insilicogenome \
-    --channel conda-forge python=3.11.11 Poetry
+    --channel conda-forge python=3.9 Poetry
 conda activate ~/envs/insilicogenome
 poetry install
 ```
