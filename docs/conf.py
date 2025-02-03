@@ -22,7 +22,6 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 autoapi_dirs = ["../src"]
-html_theme = "sphinx_rtd_theme"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -33,5 +32,4 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-html_theme = "sphinx_rtd_theme"
+html_theme = "alabaster"
