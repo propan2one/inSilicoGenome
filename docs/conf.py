@@ -6,8 +6,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u"InSilicoGenome"
-copyright = u"2021, Delmotte Jean"
+project = u"insilicogenome"
+copyright = u"2025, Delmotte Jean"
 author = u"Delmotte Jean"
 
 # -- General configuration ---------------------------------------------------
@@ -16,15 +16,12 @@ author = u"Delmotte Jean"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "myst_nb",
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "nbsphinx",
 ]
-autoapi_type = "python"
-autoapi_dirs = ["../../src"]
-napoleon_numpy_docstring = True
-nbsphinx_execute = "always"
+autoapi_dirs = ["../src"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
