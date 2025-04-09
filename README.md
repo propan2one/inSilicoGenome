@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/propan2one/insilicogenome/branch/main/graph/badge.svg)](https://codecov.io/gh/propan2one/insilicogenome)
 [![Documentation Status](https://readthedocs.org/projects/insilicogenome/badge/?version=latest)](https://insilicogenome.readthedocs.io/en/latest/?badge=latest)
 
+This project is no longer developed here and will be **migrated to codeberg**: https://codeberg.org/JeanDelmotte/inSilicoGenome
 
 ## Installation
 
